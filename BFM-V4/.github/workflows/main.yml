@@ -1,0 +1,19 @@
+
+name: Deploy Website
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploying to surge
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.17.1
+      - run: npm install
+      - run: npm install -g surge
+      - run: npm run build
+      - run: surge ./dist https://presale-main.surge.sh/ --token ${{ secrets.SURGE_TOKEN }}
